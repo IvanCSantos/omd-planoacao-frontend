@@ -34,7 +34,7 @@ export const ListItem = <T,>({ data, keys, buttons }: ListItemProps<T>) => {
       {data.map((item, index) => (
         <tr key={index}>
           {keys.map((key) => (
-            <td key={String(key)} className="border px-4 py-2">
+            <td key={String(key)} className="border px-4 py-2 text-sm">
               {formatValue(String(key), item[key])}
             </td>
           ))}
