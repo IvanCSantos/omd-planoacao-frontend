@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="w-[600px] mx-auto flex items-center">
         <Home />
       </main>
       <Footer />
