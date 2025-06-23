@@ -18,6 +18,10 @@ export const ActionPlanRegister = () => {
 
   const closeRegisterModal = () => {
     setModalRegisterIsOpen(false);
+    setFormValues({
+      title: "",
+      goal: "",
+    });
   };
 
   const handleChange = (
