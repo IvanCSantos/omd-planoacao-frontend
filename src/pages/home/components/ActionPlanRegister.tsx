@@ -5,6 +5,7 @@ import { RiAddFill } from "react-icons/ri";
 import { ModalRegister } from "../../../components/modals/ModalRegister";
 import { InputText } from "../../../components/inputs/InputText";
 import { createActionPlan } from "../../../services/api";
+import { InputTextArea } from "../../../components/inputs/InputTextArea";
 
 export const ActionPlanRegister = () => {
   const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
@@ -61,10 +62,6 @@ export const ActionPlanRegister = () => {
         onSubmit={handleSubmit}
         onClose={() => closeRegisterModal()}
       >
-        <CustomTitle
-          title="Plano de ação"
-          styles="text-md font-medium text-left"
-        />
         <InputText
           id="title"
           name="title"
@@ -73,16 +70,12 @@ export const ActionPlanRegister = () => {
           onChange={handleChange}
           required
         />
-        <InputText
+        <InputTextArea
           id="goal"
           name="goal"
           label="Objetivo"
           value={formValues.goal}
           onChange={handleChange}
-        />
-        <CustomTitle
-          title="Ações"
-          styles="mt-4 text-md font-medium text-left"
         />
       </ModalRegister>
     </>
