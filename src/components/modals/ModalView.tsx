@@ -104,7 +104,19 @@ export const ModalView = ({
       onClick={onClose}
     >
       <div
-        className="w-[clamp(300px,20vw,600px)] min-h-48 bg-white rounded-lg p-6 shadow-lg relative flex flex-col"
+        className="w-[90vw] 
+    sm:w-[80vw] 
+    md:w-[60vw] 
+    lg:w-[clamp(500px,40vw,700px)] 
+    xl:w-[clamp(500px,30vw,800px)]
+    min-h-48 
+    bg-white 
+    rounded-lg 
+    p-6 
+    shadow-lg 
+    relative 
+    flex 
+    flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header do modal */}
