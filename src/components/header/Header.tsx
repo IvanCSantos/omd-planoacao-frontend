@@ -6,7 +6,7 @@ export const Header = () => {
     <header className="w-full h-24 bg-white">
       <div className="max-w-[700px] mx-auto h-full flex items-center">
         <CustomTitle
-          title="OMD - Plano de ação"
+          title="Controle de Planos de Ação"
           styles="text-4xl font-bold text-center"
         />
       </div>
