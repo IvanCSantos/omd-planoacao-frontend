@@ -1,6 +1,7 @@
 import React from "react";
 import { CustomTitle } from "../texts/customTitle";
 import { IoMdClose } from "react-icons/io";
+import { ButtonSave } from "../../components/buttons/ButtonSave";
 
 interface ModalRegisterProps {
   id: number;
@@ -43,12 +44,7 @@ export const ModalRegister = ({
 
         {/* Botões inferiores */}
         <div className="flex mt-4 justify-end">
-          <button
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-            onClick={onSubmit}
-          >
-            Salvar
-          </button>
+          <ButtonSave label="Salvar" onClick={onSubmit} />
         </div>
       </div>
     </div>
