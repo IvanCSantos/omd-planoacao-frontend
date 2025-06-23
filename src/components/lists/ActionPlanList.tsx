@@ -6,8 +6,19 @@ import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { ButtonNew } from "../buttons/ButtonNew";
 import { RiAddFill } from "react-icons/ri";
+import { ModalRegister } from "../modals/ModalRegister";
 
 export const ActionPlanList = () => {
+  const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
+
+  const openRegisterModal = () => {
+    setModalRegisterIsOpen(true);
+  };
+
+  const closeRegisterModal = () => {
+    setModalRegisterIsOpen(false);
+  };
+
   return (
     <div className="w-full">
       <div className="flex justify-between mb-16">
@@ -15,9 +26,17 @@ export const ActionPlanList = () => {
         <ButtonNew
           label="Adicionar novo"
           endIcon={<RiAddFill />}
-          onClick={() => console.log("clicou")}
+          onClick={() => openRegisterModal()}
         />
       </div>
+
+      <ModalRegister
+        display={modalRegisterIsOpen ? "flex" : "hidden"}
+        title="Cadastrar Plano de Ação"
+        onSubmit={() => console.log("clicou")}
+        onClose={() => closeRegisterModal()}
+      />
+
       <Table
         headers={["Titulo", "Objetivo", "Status", "Data de Criação", "Ações"]}
         data={[
