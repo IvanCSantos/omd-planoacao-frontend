@@ -54,12 +54,8 @@ export async function editActionPlan(body: {
   return res.json();
 }
 
-export async function removeActionPlan(body: {
-  id: number;
-  title: string;
-  goal: string;
-}) {
-  const url = `${apiUrl}/action-plan/${body.id}`;
+export async function removeActionPlan(id: number) {
+  const url = `${apiUrl}/action-plan/${id}`;
   const res = await fetch(url, {
     method: "DELETE",
   });

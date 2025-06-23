@@ -22,10 +22,13 @@ export interface ActionPlanListType {
   actions?: string[];
 }
 
-export const ActionPlanList = () => {
-  const [actionPlanList, setActioPlanList] = React.useState<
-    ActionPlanListType[]
-  >([]);
+export const ActionPlanList = ({
+  actionPlanList,
+  loadActionPlans,
+}: {
+  actionPlanList: ActionPlanListType[];
+  loadActionPlans: () => void;
+}) => {
   const [modalEditIsOpen, setModalEditIsOpen] = React.useState(false);
   const [modalRemoveIsOpen, setModalRemoveIsOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
@@ -33,19 +36,6 @@ export const ActionPlanList = () => {
     title: "",
     goal: "",
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const actionPlans = await getAllActionPlan();
-        setActioPlanList(actionPlans);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const openEditModal = () => {
     setModalEditIsOpen(true);
@@ -105,6 +95,8 @@ export const ActionPlanList = () => {
     try {
       const response = await editActionPlan(formValues);
       closeEditModal();
+
+      loadActionPlans();
     } catch (error) {
       console.error(error);
     }
@@ -112,8 +104,10 @@ export const ActionPlanList = () => {
 
   const handleRemove = async () => {
     try {
-      const response = await removeActionPlan(formValues);
+      const response = await removeActionPlan(formValues.id);
       closeRemoveModal();
+
+      loadActionPlans();
     } catch (error) {
       console.error(error);
     }

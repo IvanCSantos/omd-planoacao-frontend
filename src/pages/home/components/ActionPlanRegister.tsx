@@ -7,7 +7,11 @@ import { InputText } from "../../../components/inputs/InputText";
 import { createActionPlan } from "../../../services/api";
 import { InputTextArea } from "../../../components/inputs/InputTextArea";
 
-export const ActionPlanRegister = () => {
+export const ActionPlanRegister = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) => {
   const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     title: "",
@@ -40,6 +44,7 @@ export const ActionPlanRegister = () => {
     try {
       const response = await createActionPlan(formValues);
       closeRegisterModal();
+      onSuccess();
     } catch (error) {
       console.error(error);
     }
