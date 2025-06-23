@@ -3,12 +3,17 @@ import { Table } from "./components/Table";
 import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
-import { getAllActionPlan, editActionPlan } from "../../services/api";
+import {
+  getAllActionPlan,
+  editActionPlan,
+  removeActionPlan,
+} from "../../services/api";
 import { ModalRegister } from "../modals/ModalRegister";
+import { ModalDelete } from "../modals/ModalDelete";
 import { InputText } from "../inputs/InputText";
 import { InputTextArea } from "../inputs/InputTextArea";
 
-interface ActionPlanListType {
+export interface ActionPlanListType {
   id: number;
   title: string;
   goal?: string;
@@ -22,6 +27,7 @@ export const ActionPlanList = () => {
     ActionPlanListType[]
   >([]);
   const [modalEditIsOpen, setModalEditIsOpen] = React.useState(false);
+  const [modalRemoveIsOpen, setModalRemoveIsOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     id: 0,
     title: "",
@@ -45,8 +51,21 @@ export const ActionPlanList = () => {
     setModalEditIsOpen(true);
   };
 
+  const openRemoveModal = () => {
+    setModalRemoveIsOpen(true);
+  };
+
   const closeEditModal = () => {
     setModalEditIsOpen(false);
+    setFormValues({
+      id: 0,
+      title: "",
+      goal: "",
+    });
+  };
+
+  const closeRemoveModal = () => {
+    setModalRemoveIsOpen(false);
     setFormValues({
       id: 0,
       title: "",
@@ -63,6 +82,15 @@ export const ActionPlanList = () => {
     openEditModal();
   };
 
+  const handleRemoveButton = (item: ActionPlanListType) => {
+    setFormValues({
+      id: item.id,
+      title: item.title,
+      goal: item.goal || "",
+    });
+    openRemoveModal();
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -77,6 +105,15 @@ export const ActionPlanList = () => {
     try {
       const response = await editActionPlan(formValues);
       closeEditModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      const response = await removeActionPlan(formValues);
+      closeRemoveModal();
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +139,7 @@ export const ActionPlanList = () => {
           {
             label: "Remover",
             icon: <AiFillDelete />,
-            onClick: () => console.log("Remover", item),
+            onClick: () => handleRemoveButton(item),
           },
         ]}
       />
@@ -128,6 +165,12 @@ export const ActionPlanList = () => {
           onChange={handleChange}
         />
       </ModalRegister>
+      <ModalDelete
+        title="Remover Plano de Ação"
+        display={modalRemoveIsOpen ? "flex" : "hidden"}
+        onRemove={handleRemove}
+        onClose={() => closeRemoveModal()}
+      />
     </div>
   );
 };

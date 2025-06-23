@@ -53,3 +53,23 @@ export async function editActionPlan(body: {
 
   return res.json();
 }
+
+export async function removeActionPlan(body: {
+  id: number;
+  title: string;
+  goal: string;
+}) {
+  const url = `${apiUrl}/action-plan/${body.id}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Erro ${res.status}: ${res.statusText}. Detalhes: ${errorText}`
+    );
+  }
+
+  return res;
+}
