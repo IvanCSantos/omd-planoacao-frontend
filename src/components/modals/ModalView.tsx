@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CustomTitle } from "../texts/CustomTitle";
 import { CustomText } from "../texts/CustomText";
 import { IoMdClose } from "react-icons/io";
 import { ButtonSave } from "../../components/buttons/ButtonSave";
+import { InputText } from "../../components/inputs/InputText";
 import { ButtonNew } from "../buttons/ButtonNew";
+import { getActionsByActionPlan, createAction } from "../../services/api";
+import { ModalRegister } from "../modals/ModalRegister";
+import { ActionList } from "../lists/ActionList";
 
 interface ModalViewProps {
   id: number;
   title: string;
   goal: string;
+}
+
+interface ActionProps {
+  id: number;
+  title: string;
+  status: string;
+  dueDate: string;
 }
 
 export const ModalView = ({
@@ -24,6 +35,69 @@ export const ModalView = ({
   onSubmit: () => void;
   onClose: () => void;
 }) => {
+  const [actionList, setActionList] = React.useState<ActionProps[]>([]);
+  const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
+
+  const [formValues, setFormValues] = React.useState<ActionProps>({
+    id: 0,
+    title: "",
+    status: "",
+    dueDate: "",
+  });
+
+  const loadActionList = React.useCallback(async () => {
+    if (data?.id !== 0) {
+      try {
+        const response = await getActionsByActionPlan(data.id);
+        setActionList(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [data.id]);
+
+  useEffect(() => {
+    loadActionList();
+  }, [loadActionList]);
+
+  const openRegisterModal = () => {
+    setModalRegisterIsOpen(true);
+  };
+
+  const closeRegisterModal = () => {
+    setModalRegisterIsOpen(false);
+    setFormValues({
+      id: 0,
+      title: "",
+      status: "",
+      dueDate: "",
+    });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await createAction({
+        actionPlanId: data.id,
+        title: formValues.title,
+        status: formValues.status,
+        dueDate: formValues.dueDate,
+      });
+      closeRegisterModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 w-full h-full ${display} items-center justify-center bg-black/50 z-50`}
@@ -46,6 +120,14 @@ export const ModalView = ({
         <div className="flex-1 py-8">
           <CustomText text={`Plano de ação: ${data.title ?? ""}`} />
           <CustomText text={`Objetivo: ${data.goal ?? ""}`} />
+          <div className="mt-6">
+            <CustomTitle title="Ações deste Plano:" styles="text-md mb-2" />
+            {actionList.length === 0 ? (
+              <p className="text-sm">Nenhuma ação cadastrada.</p>
+            ) : (
+              <ActionList actionList={actionList} />
+            )}
+          </div>
         </div>
 
         {/* Botões inferiores */}
@@ -53,6 +135,22 @@ export const ModalView = ({
           <ButtonNew label="Nova Ação" onClick={onSubmit} />
         </div>
       </div>
+
+      <ModalRegister
+        title="Cadastrar Ação"
+        display={modalRegisterIsOpen ? "flex" : "hidden"}
+        onSubmit={handleSubmit}
+        onClose={closeRegisterModal}
+      >
+        <InputText
+          id="title"
+          name="title"
+          label="Título"
+          value={formValues.title}
+          onChange={handleChange}
+          required
+        />
+      </ModalRegister>
     </div>
   );
 };

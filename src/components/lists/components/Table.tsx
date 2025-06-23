@@ -12,7 +12,7 @@ export interface TableProps<T> {
   headers: string[];
   data: T[];
   keys: (keyof T)[];
-  buttons: (item: T) => ButtonOptions[];
+  buttons?: (item: T) => ButtonOptions[];
 }
 
 export const Table = <T,>({ headers, data, keys, buttons }: TableProps<T>) => {
