@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomTitle } from "../texts/customTitle";
+import { CustomTitle } from "../texts/CustomTitle";
 
 export const Header = () => {
   return (

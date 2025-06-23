@@ -9,7 +9,7 @@ export const ButtonSave = ({
 }) => {
   return (
     <button
-      className="px-4 py-2 cursor-pointer bg-blue-600 text-white rounded"
+      className="px-4 py-2 cursor-pointer bg-[#2563EB] hover:bg-[#1E4FDB] text-white rounded"
       onClick={onClick}
     >
       {label}

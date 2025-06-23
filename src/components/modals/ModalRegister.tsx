@@ -1,7 +1,8 @@
 import React from "react";
-import { CustomTitle } from "../texts/customTitle";
+import { CustomTitle } from "../texts/CustomTitle";
 import { IoMdClose } from "react-icons/io";
 import { ButtonSave } from "../../components/buttons/ButtonSave";
+import { InputText } from "../inputs/InputText";
 
 interface ModalRegisterProps {
   id: number;
@@ -12,12 +13,14 @@ export const ModalRegister = ({
   data,
   title,
   display,
+  children,
   onSubmit,
   onClose,
 }: {
   title: string;
   data?: ModalRegisterProps;
   display: "hidden" | "flex";
+  children: any;
   onSubmit: () => void;
   onClose: () => void;
 }) => {
@@ -37,10 +40,10 @@ export const ModalRegister = ({
         >
           <IoMdClose />
         </button>
-        <CustomTitle title={title} styles="text-lg font-bold text-left" />
+        <CustomTitle title={title} styles="text-lg font-medium text-left" />
 
         {/* Conteúdo principal */}
-        <div className="flex-1"></div>
+        <div className="flex-1 py-8">{children}</div>
 
         {/* Botões inferiores */}
         <div className="flex mt-4 justify-end">

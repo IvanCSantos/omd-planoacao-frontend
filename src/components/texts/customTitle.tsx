@@ -7,5 +7,5 @@ export const CustomTitle = ({
   title: string;
   styles: string;
 }) => {
-  return <h1 className={`flex-1 ${styles}`}>{title}</h1>;
+  return <h1 className={`flex-1 ${styles} text-[#111827] `}>{title}</h1>;
 };

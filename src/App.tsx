@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="max-w-[700px] mx-auto flex flex-1 pt-24 items-start">
+      <main className="max-w-[700px] mx-auto flex flex-col flex-1 pt-24 items-start">
         <Home />
       </main>
       <Footer />
