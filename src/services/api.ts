@@ -17,3 +17,17 @@ export async function createActionPlan(body: { title: string; goal: string }) {
 
   return res.json();
 }
+
+export async function getAllActionPlan() {
+  const url = `${apiUrl}/action-plan/all`;
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Erro ${res.status}: ${res.statusText}. Detalhes: ${errorText}`
+    );
+  }
+
+  return res.json();
+}

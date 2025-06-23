@@ -8,20 +8,21 @@ import { ButtonMenu } from "../../../components/buttons/ButtonMenu";
 import type { ListHeaderProps } from "./ListHeader";
 import type { ListItemProps } from "./ListItem";
 
-export interface TableProps {
+export interface TableProps<T> {
   headers: string[];
-  data: Array<Record<string, string | number | boolean>>;
+  data: T[];
+  keys: (keyof T)[];
   buttons: ButtonOptions[];
 }
 
-export const Table = ({ headers, data, buttons }: TableProps) => {
+export const Table = <T,>({ headers, data, keys, buttons }: TableProps<T>) => {
   return (
     <table className="border-collapse w-full">
       <thead>
         <ListHeader headers={headers} />
       </thead>
       <tbody>
-        <ListItem data={data} buttons={buttons} />
+        <ListItem<T> data={data} keys={keys} buttons={buttons} />
       </tbody>
     </table>
   );

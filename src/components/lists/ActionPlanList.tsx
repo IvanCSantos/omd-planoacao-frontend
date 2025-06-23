@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "./components/Table";
 import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
+import { getAllActionPlan } from "../../services/api";
+
+interface ActionPlanListType {
+  id: number;
+  title: string;
+  goal?: string;
+  creationDate: string;
+  status: string;
+  actions?: string[];
+}
 
 export const ActionPlanList = () => {
+  const [actionPlanList, setActioPlanList] = React.useState<
+    ActionPlanListType[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const actionPlans = await getAllActionPlan();
+        setActioPlanList(actionPlans);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log(actionPlanList);
+  }, [actionPlanList]);
+
   return (
     <div className="w-full">
-      <Table
+      <Table<ActionPlanListType>
         headers={["Titulo", "Objetivo", "Status", "Data de Criação", "Ações"]}
-        data={[
-          {
-            title: "Plan A",
-            objective: "Implement improvements",
-            status: "Completed",
-            date: "06/22/2025",
-          },
-          {
-            title: "Plan B",
-            objective: "Organize team",
-            status: "Pending",
-            date: "06/21/2025",
-          },
-        ]}
+        data={actionPlanList}
+        keys={["title", "goal", "status", "creationDate"]}
         buttons={[
           {
             label: "Visualizar",
