@@ -7,7 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 
 export const ActionPlanList = () => {
   return (
-    <div className="w-full">
+    <div className="w-full mt-48">
       <CustomTitle title="Planos de Ação" />
       <Table
         headers={["Titulo", "Objetivo", "Status", "Data de Criação", "Ações"]}
