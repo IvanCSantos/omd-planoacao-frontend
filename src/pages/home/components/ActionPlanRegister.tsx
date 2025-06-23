@@ -4,6 +4,7 @@ import { ButtonNew } from "../../../components/buttons/ButtonNew";
 import { RiAddFill } from "react-icons/ri";
 import { ModalRegister } from "../../../components/modals/ModalRegister";
 import { InputText } from "../../../components/inputs/InputText";
+import { createActionPlan } from "../../../services/api";
 
 export const ActionPlanRegister = () => {
   const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
@@ -34,8 +35,13 @@ export const ActionPlanRegister = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    closeRegisterModal();
+  const handleSubmit = async () => {
+    try {
+      const response = await createActionPlan(formValues);
+      closeRegisterModal();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -52,7 +58,7 @@ export const ActionPlanRegister = () => {
       <ModalRegister
         display={modalRegisterIsOpen ? "flex" : "hidden"}
         title="Cadastrar Plano de Ação"
-        onSubmit={() => console.log("clicou")}
+        onSubmit={handleSubmit}
         onClose={() => closeRegisterModal()}
       >
         <InputText
