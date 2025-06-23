@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from "react";
+import React, { useState, useEffect, useRef, type ReactNode } from "react";
 
 export interface ButtonOptions {
   label: string;
@@ -14,6 +14,7 @@ interface ButtonProps {
 
 export const ButtonMenu = ({ label, endIcon, buttons }: ButtonProps) => {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setOpen((prev) => !prev);
 
@@ -22,8 +23,26 @@ export const ButtonMenu = ({ label, endIcon, buttons }: ButtonProps) => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={menuRef}>
       <button
         className="bg-blue-700 text-white mx-2 px-2 py-2 text-sm flex flex-row gap-1 items-center rounded-md cursor-pointer"
         onClick={toggleMenu}
