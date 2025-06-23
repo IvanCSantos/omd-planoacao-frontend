@@ -5,13 +5,13 @@ import { Footer } from "./components/footer/Footer";
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="w-[600px] mx-auto flex items-center">
+      <main className="w-[600px] mx-auto flex flex-1 items-center">
         <Home />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
