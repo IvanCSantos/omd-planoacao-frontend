@@ -3,7 +3,7 @@ import React from "react";
 export const Footer = () => {
   return (
     <footer className="w-full bg-white">
-      <div className="w-[600px] mx-auto h-full flex flex-col items-center">
+      <div className="max-w-[700px] mx-auto h-full flex flex-col items-center">
         <p className="text-sm">
           Sistema de gerenciamento de Planos de Ação, para aplicação em um teste
           na empresa{" "}
