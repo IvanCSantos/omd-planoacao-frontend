@@ -3,7 +3,10 @@ import { Table } from "./components/Table";
 import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
-import { getAllActionPlan } from "../../services/api";
+import { getAllActionPlan, editActionPlan } from "../../services/api";
+import { ModalRegister } from "../modals/ModalRegister";
+import { InputText } from "../inputs/InputText";
+import { InputTextArea } from "../inputs/InputTextArea";
 
 interface ActionPlanListType {
   id: number;
@@ -18,6 +21,12 @@ export const ActionPlanList = () => {
   const [actionPlanList, setActioPlanList] = React.useState<
     ActionPlanListType[]
   >([]);
+  const [modalEditIsOpen, setModalEditIsOpen] = React.useState(false);
+  const [formValues, setFormValues] = React.useState({
+    id: 0,
+    title: "",
+    goal: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +41,46 @@ export const ActionPlanList = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(actionPlanList);
-  }, [actionPlanList]);
+  const openEditModal = () => {
+    setModalEditIsOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setModalEditIsOpen(false);
+    setFormValues({
+      id: 0,
+      title: "",
+      goal: "",
+    });
+  };
+
+  const handleEditButton = (item: ActionPlanListType) => {
+    setFormValues({
+      id: item.id,
+      title: item.title,
+      goal: item.goal || "",
+    });
+    openEditModal();
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await editActionPlan(formValues);
+      closeEditModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -42,24 +88,46 @@ export const ActionPlanList = () => {
         headers={["Titulo", "Objetivo", "Status", "Data de Criação", "Ações"]}
         data={actionPlanList}
         keys={["title", "goal", "status", "creationDate"]}
-        buttons={[
+        buttons={(item) => [
           {
             label: "Visualizar",
             icon: <FaEye />,
-            onClick: () => console.log("Clicou"),
+            onClick: () => console.log("Visualizar", item),
           },
           {
             label: "Editar",
             icon: <MdEdit />,
-            onClick: () => console.log("Clicou"),
+            onClick: () => handleEditButton(item),
           },
           {
             label: "Remover",
             icon: <AiFillDelete />,
-            onClick: () => console.log("Clicou"),
+            onClick: () => console.log("Remover", item),
           },
         ]}
       />
+      <ModalRegister
+        display={modalEditIsOpen ? "flex" : "hidden"}
+        title="Editar Plano de Ação"
+        onSubmit={handleSubmit}
+        onClose={() => closeEditModal()}
+      >
+        <InputText
+          id="title"
+          name="title"
+          label="Título"
+          value={formValues.title}
+          onChange={handleChange}
+          required
+        />
+        <InputTextArea
+          id="goal"
+          name="goal"
+          label="Objetivo"
+          value={formValues.goal}
+          onChange={handleChange}
+        />
+      </ModalRegister>
     </div>
   );
 };

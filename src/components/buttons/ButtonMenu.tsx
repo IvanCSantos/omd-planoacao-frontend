@@ -6,13 +6,19 @@ export interface ButtonOptions {
   onClick: () => void;
 }
 
-interface ButtonProps {
+interface ButtonProps<T> {
   label: string;
   endIcon?: ReactNode;
-  buttons: ButtonOptions[];
+  item: T;
+  buttons: (item: T) => ButtonOptions[];
 }
 
-export const ButtonMenu = ({ label, endIcon, buttons }: ButtonProps) => {
+export const ButtonMenu = <T,>({
+  label,
+  endIcon,
+  item,
+  buttons,
+}: ButtonProps<T>) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +58,7 @@ export const ButtonMenu = ({ label, endIcon, buttons }: ButtonProps) => {
 
       {open && (
         <div className="absolute z-10 mt-1 w-32 bg-white rounded-md shadow-lg border right-0">
-          {buttons.map((btn) => (
+          {buttons(item).map((btn) => (
             <button
               key={btn.label}
               onClick={() => handleOptionClick(btn.onClick)}

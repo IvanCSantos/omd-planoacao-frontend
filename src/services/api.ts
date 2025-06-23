@@ -31,3 +31,25 @@ export async function getAllActionPlan() {
 
   return res.json();
 }
+
+export async function editActionPlan(body: {
+  id: number;
+  title: string;
+  goal: string;
+}) {
+  const url = `${apiUrl}/action-plan/${body.id}`;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Erro ${res.status}: ${res.statusText}. Detalhes: ${errorText}`
+    );
+  }
+
+  return res.json();
+}

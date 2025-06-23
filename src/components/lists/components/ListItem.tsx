@@ -6,7 +6,7 @@ import type { ButtonOptions } from "../../buttons/ButtonMenu";
 export interface ListItemProps<T> {
   data: T[];
   keys: (keyof T)[];
-  buttons: ButtonOptions[];
+  buttons: (item: T) => ButtonOptions[];
 }
 
 export const ListItem = <T,>({ data, keys, buttons }: ListItemProps<T>) => {
@@ -41,6 +41,7 @@ export const ListItem = <T,>({ data, keys, buttons }: ListItemProps<T>) => {
           <td className="border px-4 py-2">
             <ButtonMenu
               label="Opções"
+              item={item}
               endIcon={<FaAngleDown />}
               buttons={buttons}
             />
