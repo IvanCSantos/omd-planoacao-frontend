@@ -57,10 +57,14 @@ export const ActionPlanRegister = () => {
 
       <ModalRegister
         display={modalRegisterIsOpen ? "flex" : "hidden"}
-        title="Cadastrar Plano de Ação"
+        title="Novo Plano de Ação"
         onSubmit={handleSubmit}
         onClose={() => closeRegisterModal()}
       >
+        <CustomTitle
+          title="Plano de ação"
+          styles="text-md font-medium text-left"
+        />
         <InputText
           id="title"
           name="title"
@@ -75,6 +79,10 @@ export const ActionPlanRegister = () => {
           label="Objetivo"
           value={formValues.goal}
           onChange={handleChange}
+        />
+        <CustomTitle
+          title="Ações"
+          styles="mt-4 text-md font-medium text-left"
         />
       </ModalRegister>
     </>

@@ -3,6 +3,7 @@ import { CustomTitle } from "../texts/CustomTitle";
 import { IoMdClose } from "react-icons/io";
 import { ButtonSave } from "../../components/buttons/ButtonSave";
 import { InputText } from "../inputs/InputText";
+import { ButtonCancel } from "../buttons/ButtonCancel";
 
 interface ModalRegisterProps {
   id: number;
@@ -46,7 +47,8 @@ export const ModalRegister = ({
         <div className="flex-1 py-8">{children}</div>
 
         {/* Botões inferiores */}
-        <div className="flex mt-4 justify-end">
+        <div className="flex mt-4 gap-2 justify-end">
+          <ButtonCancel label="Cancelar" onClick={onClose} />
           <ButtonSave label="Salvar" onClick={onSubmit} />
         </div>
       </div>
