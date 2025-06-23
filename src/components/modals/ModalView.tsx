@@ -133,7 +133,10 @@ export const ModalView = ({
           <CustomText text={`Plano de ação: ${data.title ?? ""}`} />
           <CustomText text={`Objetivo: ${data.goal ?? ""}`} />
           <div className="mt-6">
-            <CustomTitle title="Ações deste Plano:" styles="text-md mb-2" />
+            <CustomTitle
+              title="Ações deste Plano:"
+              styles="text-md font-medium mb-4"
+            />
             {actionList.length === 0 ? (
               <p className="text-sm">Nenhuma ação cadastrada.</p>
             ) : (
