@@ -4,11 +4,20 @@ import { Table } from "./components/Table";
 import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
+import { ButtonNew } from "../buttons/ButtonNew";
+import { RiAddFill } from "react-icons/ri";
 
 export const ActionPlanList = () => {
   return (
     <div className="w-full">
-      <CustomTitle title="Planos de Ação" />
+      <div className="flex justify-between mb-16">
+        <CustomTitle title="Planos de Ação" styles="text-xl font-semibold" />
+        <ButtonNew
+          label="Adicionar novo"
+          endIcon={<RiAddFill />}
+          onClick={() => console.log("clicou")}
+        />
+      </div>
       <Table
         headers={["Titulo", "Objetivo", "Status", "Data de Criação", "Ações"]}
         data={[
