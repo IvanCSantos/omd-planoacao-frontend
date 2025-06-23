@@ -9,6 +9,7 @@ import {
   removeActionPlan,
 } from "../../services/api";
 import { ModalRegister } from "../modals/ModalRegister";
+import { ModalView } from "../modals/ModalView";
 import { ModalDelete } from "../modals/ModalDelete";
 import { InputText } from "../inputs/InputText";
 import { InputTextArea } from "../inputs/InputTextArea";
@@ -30,6 +31,7 @@ export const ActionPlanList = ({
   loadActionPlans: () => void;
 }) => {
   const [modalEditIsOpen, setModalEditIsOpen] = React.useState(false);
+  const [modalViewIsOpen, setModalViewIsOpen] = React.useState(false);
   const [modalRemoveIsOpen, setModalRemoveIsOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     id: 0,
@@ -41,12 +43,25 @@ export const ActionPlanList = ({
     setModalEditIsOpen(true);
   };
 
+  const openViewModal = () => {
+    setModalViewIsOpen(true);
+  };
+
   const openRemoveModal = () => {
     setModalRemoveIsOpen(true);
   };
 
   const closeEditModal = () => {
     setModalEditIsOpen(false);
+    setFormValues({
+      id: 0,
+      title: "",
+      goal: "",
+    });
+  };
+
+  const closeViewModal = () => {
+    setModalViewIsOpen(false);
     setFormValues({
       id: 0,
       title: "",
@@ -70,6 +85,15 @@ export const ActionPlanList = ({
       goal: item.goal || "",
     });
     openEditModal();
+  };
+
+  const handleViewButton = (item: ActionPlanListType) => {
+    setFormValues({
+      id: item.id,
+      title: item.title,
+      goal: item.goal || "",
+    });
+    openViewModal();
   };
 
   const handleRemoveButton = (item: ActionPlanListType) => {
@@ -123,7 +147,7 @@ export const ActionPlanList = ({
           {
             label: "Visualizar",
             icon: <FaEye />,
-            onClick: () => console.log("Visualizar", item),
+            onClick: () => handleViewButton(item),
           },
           {
             label: "Editar",
@@ -164,6 +188,13 @@ export const ActionPlanList = ({
         display={modalRemoveIsOpen ? "flex" : "hidden"}
         onRemove={handleRemove}
         onClose={() => closeRemoveModal()}
+      />
+      <ModalView
+        title="Visualizar Plano de Ação"
+        display={modalViewIsOpen ? "flex" : "hidden"}
+        data={formValues}
+        onSubmit={handleSubmit}
+        onClose={() => closeViewModal()}
       />
     </div>
   );
