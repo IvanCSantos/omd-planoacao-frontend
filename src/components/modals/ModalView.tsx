@@ -6,7 +6,6 @@ import { ButtonSave } from "../../components/buttons/ButtonSave";
 import { InputText } from "../../components/inputs/InputText";
 import { ButtonNew } from "../buttons/ButtonNew";
 import { getActionsByActionPlan, createAction } from "../../services/api";
-import { ModalRegister } from "../modals/ModalRegister";
 import { ActionList } from "../lists/ActionList";
 
 interface ModalViewProps {
@@ -60,20 +59,6 @@ export const ModalView = ({
     loadActionList();
   }, [loadActionList]);
 
-  const openRegisterModal = () => {
-    setModalRegisterIsOpen(true);
-  };
-
-  const closeRegisterModal = () => {
-    setModalRegisterIsOpen(false);
-    setFormValues({
-      id: 0,
-      title: "",
-      status: "",
-      dueDate: "",
-    });
-  };
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -92,7 +77,6 @@ export const ModalView = ({
         status: formValues.status,
         dueDate: formValues.dueDate,
       });
-      closeRegisterModal();
     } catch (error) {
       console.error(error);
     }
@@ -140,7 +124,11 @@ export const ModalView = ({
             {actionList.length === 0 ? (
               <p className="text-sm">Nenhuma ação cadastrada.</p>
             ) : (
-              <ActionList actionList={actionList} />
+              <ActionList
+                actionPlanId={data.id}
+                actionList={actionList}
+                reload={loadActionList}
+              />
             )}
           </div>
         </div>
@@ -150,22 +138,6 @@ export const ModalView = ({
           <ButtonNew label="Nova Ação" onClick={onSubmit} />
         </div>
       </div>
-
-      <ModalRegister
-        title="Cadastrar Ação"
-        display={modalRegisterIsOpen ? "flex" : "hidden"}
-        onSubmit={handleSubmit}
-        onClose={closeRegisterModal}
-      >
-        <InputText
-          id="title"
-          name="title"
-          label="Título"
-          value={formValues.title}
-          onChange={handleChange}
-          required
-        />
-      </ModalRegister>
     </div>
   );
 };

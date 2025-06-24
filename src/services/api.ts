@@ -112,3 +112,46 @@ export async function createAction(props: {
 
   return res.json();
 }
+
+export async function editAction(body: {
+  id: number;
+  title: string;
+  status: string;
+  dueDate: string;
+}) {
+  const url = `${apiUrl}/action/${body.id}`;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: body.title,
+      status: body.status,
+      dueDate: body.dueDate,
+    }),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Erro ${res.status}: ${res.statusText}. Detalhes: ${errorText}`
+    );
+  }
+
+  return res.json();
+}
+
+export async function removeAction(id: number) {
+  const url = `${apiUrl}/action/${id}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Erro ${res.status}: ${res.statusText}. Detalhes: ${errorText}`
+    );
+  }
+
+  return res;
+}
