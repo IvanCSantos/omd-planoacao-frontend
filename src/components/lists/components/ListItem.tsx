@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonMenu } from "../../buttons/ButtonMenu";
 import { FaAngleDown } from "react-icons/fa6";
 import type { ButtonOptions } from "../../buttons/ButtonMenu";

@@ -42,7 +42,7 @@ export const ActionPlanRegister = ({
 
   const handleSubmit = async () => {
     try {
-      const response = await createActionPlan(formValues);
+      await createActionPlan(formValues);
       closeRegisterModal();
       onSuccess();
     } catch (error) {

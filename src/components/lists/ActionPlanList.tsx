@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Table } from "./components/Table";
-import { FaEye } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
-import {
-  getAllActionPlan,
-  editActionPlan,
-  removeActionPlan,
-} from "../../services/api";
+import { editActionPlan, removeActionPlan } from "../../services/api";
 import { ModalRegister } from "../modals/ModalRegister";
 import { ModalView } from "../modals/ModalView";
 import { ModalDelete } from "../modals/ModalDelete";
@@ -119,7 +114,7 @@ export const ActionPlanList = ({
 
   const handleSubmit = async () => {
     try {
-      const response = await editActionPlan(formValues);
+      await editActionPlan(formValues);
       closeEditModal();
 
       loadActionPlans();
@@ -130,7 +125,7 @@ export const ActionPlanList = ({
 
   const handleRemove = async () => {
     try {
-      const response = await removeActionPlan(formValues.id);
+      await removeActionPlan(formValues.id);
       closeRemoveModal();
 
       loadActionPlans();

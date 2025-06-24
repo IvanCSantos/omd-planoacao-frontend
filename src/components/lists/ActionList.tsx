@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-import { Table } from "./components/Table";
-import { InputText } from "../inputs/InputText";
-import { ButtonSave } from "../buttons/ButtonSave";
-import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
+import { useState } from "react";
 import { createAction, editAction, removeAction } from "../../services/api";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FcCancel } from "react-icons/fc";
 import { BiSolidSave } from "react-icons/bi";
-import { MdAddBox } from "react-icons/md";
 
 export interface ActionListType {
   id: number;
@@ -65,7 +60,9 @@ export const ActionList = ({
     try {
       await editAction({
         id: item.id,
-        ...editValues,
+        title: editValues.title ?? item.title,
+        status: editValues.status ?? item.status,
+        dueDate: editValues.dueDate ?? item.dueDate,
       });
       setEditActionId(null);
       setEditValues({});
@@ -99,7 +96,7 @@ export const ActionList = ({
             </tr>
           </thead>
           <tbody>
-            {actionList.map((item, index) => (
+            {actionList.map((item) => (
               <tr
                 key={item.id}
                 className="py-2 border-b-1 border-gray-300 align-middle"

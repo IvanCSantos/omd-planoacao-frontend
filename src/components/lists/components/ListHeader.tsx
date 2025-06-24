@@ -1,5 +1,3 @@
-import React from "react";
-
 export type ListHeaderProps = string[];
 
 export const ListHeader = ({ headers }: { headers: ListHeaderProps }) => {

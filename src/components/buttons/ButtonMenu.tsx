@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 
 export interface ButtonOptions {
   label: string;

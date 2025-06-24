@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { CustomTitle } from "../texts/CustomTitle";
 import { CustomText } from "../texts/CustomText";
 import { IoMdClose } from "react-icons/io";
-import { ButtonSave } from "../../components/buttons/ButtonSave";
-import { InputText } from "../../components/inputs/InputText";
 import { ButtonNew } from "../buttons/ButtonNew";
 import { ButtonClose } from "../buttons/ButtonClose";
-import { getActionsByActionPlan, createAction } from "../../services/api";
+import { getActionsByActionPlan } from "../../services/api";
 import { ActionList } from "../lists/ActionList";
 
 interface ModalViewProps {
@@ -26,7 +24,6 @@ export const ModalView = ({
   data,
   title,
   display,
-  onSubmit,
   onClose,
 }: {
   title: string;
@@ -37,13 +34,6 @@ export const ModalView = ({
 }) => {
   const [actionList, setActionList] = React.useState<ActionProps[]>([]);
   const [isCreating, setIsCreating] = React.useState(false);
-
-  const [formValues, setFormValues] = React.useState<ActionProps>({
-    id: 0,
-    title: "",
-    status: "",
-    dueDate: "",
-  });
 
   const loadActionList = React.useCallback(async () => {
     if (data?.id !== 0) {

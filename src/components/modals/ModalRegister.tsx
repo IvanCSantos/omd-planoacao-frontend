@@ -1,8 +1,6 @@
-import React from "react";
 import { CustomTitle } from "../texts/CustomTitle";
 import { IoMdClose } from "react-icons/io";
 import { ButtonSave } from "../../components/buttons/ButtonSave";
-import { InputText } from "../inputs/InputText";
 import { ButtonCancel } from "../buttons/ButtonCancel";
 
 interface ModalRegisterProps {
@@ -11,7 +9,6 @@ interface ModalRegisterProps {
 }
 
 export const ModalRegister = ({
-  data,
   title,
   display,
   children,

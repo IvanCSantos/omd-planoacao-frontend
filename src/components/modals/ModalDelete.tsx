@@ -1,8 +1,6 @@
-import React from "react";
 import { CustomTitle } from "../texts/CustomTitle";
 import { IoMdClose } from "react-icons/io";
 import { ButtonRemove } from "../../components/buttons/ButtonRemove";
-import { InputText } from "../inputs/InputText";
 import { ButtonCancel } from "../buttons/ButtonCancel";
 
 export const ModalDelete = ({
