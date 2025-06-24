@@ -4,6 +4,11 @@ import { InputText } from "../inputs/InputText";
 import { ButtonSave } from "../buttons/ButtonSave";
 import { AiFillDelete, AiOutlinePlus } from "react-icons/ai";
 import { createAction, editAction, removeAction } from "../../services/api";
+import { MdModeEdit } from "react-icons/md";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { FcCancel } from "react-icons/fc";
+import { BiSolidSave } from "react-icons/bi";
+import { MdAddBox } from "react-icons/md";
 
 export interface ActionListType {
   id: number;
@@ -11,6 +16,14 @@ export interface ActionListType {
   status: string;
   dueDate: string;
 }
+
+const statusLabels = {
+  PENDING: "Pendente",
+  IN_PROGRESS: "Em andamento",
+  COMPLETED: "Concluído",
+};
+
+const statusOptions = ["PENDING", "IN_PROGRESS", "COMPLETED"];
 
 export const ActionList = ({
   actionPlanId,
@@ -23,7 +36,7 @@ export const ActionList = ({
 }) => {
   const [newAction, setNewAction] = useState({
     title: "",
-    status: "",
+    status: "PENDING",
     dueDate: "",
   });
 
@@ -36,7 +49,7 @@ export const ActionList = ({
         actionPlanId,
         ...newAction,
       });
-      setNewAction({ title: "", status: "", dueDate: "" });
+      setNewAction({ title: "", status: "PENDING", dueDate: "" });
       reload();
     } catch (error) {
       console.error(error);
@@ -78,11 +91,14 @@ export const ActionList = ({
           </tr>
         </thead>
         <tbody>
-          {actionList.map((item) => (
-            <tr key={item.id}>
+          {actionList.map((item, index) => (
+            <tr
+              key={item.id}
+              className="py-2 border-b-1 border-gray-300 align-middle"
+            >
               {editActionId === item.id ? (
                 <>
-                  <td className="border px-2 py-1">
+                  <td className="px-2 py-1">
                     <input
                       value={editValues.title ?? item.title}
                       onChange={(e) =>
@@ -91,11 +107,11 @@ export const ActionList = ({
                           title: e.target.value,
                         }))
                       }
-                      className="border rounded px-1 py-0.5 w-full"
+                      className="border rounded px-1 py-0.5 w-full text-sm"
                     />
                   </td>
-                  <td className="border px-2 py-1">
-                    <input
+                  <td className="px-2 py-1">
+                    <select
                       value={editValues.status ?? item.status}
                       onChange={(e) =>
                         setEditValues((prev) => ({
@@ -103,10 +119,16 @@ export const ActionList = ({
                           status: e.target.value,
                         }))
                       }
-                      className="border rounded px-1 py-0.5 w-full"
-                    />
+                      className="border rounded px-1 py-0.5 w-full text-sm"
+                    >
+                      {statusOptions.map((status) => (
+                        <option key={status} value={status}>
+                          {statusLabels[status as keyof typeof statusLabels]}
+                        </option>
+                      ))}
+                    </select>
                   </td>
-                  <td className="border px-2 py-1">
+                  <td className="px-2 py-1">
                     <input
                       type="date"
                       value={editValues.dueDate ?? item.dueDate}
@@ -116,14 +138,16 @@ export const ActionList = ({
                           dueDate: e.target.value,
                         }))
                       }
-                      className="border rounded px-1 py-0.5 w-full"
+                      className="border rounded px-1 py-0.5 w-full text-sm"
                     />
                   </td>
-                  <td className="border px-2 py-1 flex gap-2">
-                    <ButtonSave
-                      label="Salvar"
+                  <td className="px-2 py-1 flex gap-2">
+                    <button
                       onClick={() => handleSaveEdit(item)}
-                    />
+                      className="text-sm text-gray-500 hover:text-black"
+                    >
+                      <BiSolidSave />
+                    </button>
                     <button
                       onClick={() => {
                         setEditActionId(null);
@@ -131,27 +155,34 @@ export const ActionList = ({
                       }}
                       className="text-sm text-gray-500 hover:text-black"
                     >
-                      Cancelar
+                      <FcCancel />
                     </button>
                   </td>
                 </>
               ) : (
                 <>
-                  <td className="border px-2 py-1">{item.title}</td>
-                  <td className="border px-2 py-1">{item.status}</td>
-                  <td className="border px-2 py-1">{item.dueDate}</td>
-                  <td className="border px-2 py-1 flex gap-2">
+                  <td className="px-2 py-1">{item.title}</td>
+                  <td className="px-2 py-1">
+                    {statusLabels[item.status as keyof typeof statusLabels] ??
+                      item.status}
+                  </td>
+                  <td className="px-2 py-1">
+                    {Intl.DateTimeFormat("pt-BR").format(
+                      new Date(item.dueDate)
+                    )}
+                  </td>
+                  <td className="px-2 py-1 flex gap-2">
                     <button
                       onClick={() => setEditActionId(item.id)}
                       className="text-blue-600 hover:underline text-sm"
                     >
-                      Editar
+                      <MdModeEdit />
                     </button>
                     <button
                       onClick={() => handleRemove(item.id)}
                       className="text-red-600 hover:underline text-sm"
                     >
-                      Remover
+                      <RiDeleteBin5Fill />
                     </button>
                   </td>
                 </>
@@ -160,42 +191,47 @@ export const ActionList = ({
           ))}
 
           <tr>
-            <td className="border px-2 py-1">
+            <td className="px-2 py-2">
               <input
                 value={newAction.title}
                 onChange={(e) =>
                   setNewAction((prev) => ({ ...prev, title: e.target.value }))
                 }
                 placeholder="Título"
-                className="border rounded px-1 py-0.5 w-full"
+                className="border rounded px-1 py-0.5 w-full text-sm"
               />
             </td>
-            <td className="border px-2 py-1">
-              <input
+            <td className="px-2 py-1">
+              <select
                 value={newAction.status}
                 onChange={(e) =>
                   setNewAction((prev) => ({ ...prev, status: e.target.value }))
                 }
-                placeholder="Status"
-                className="border rounded px-1 py-0.5 w-full"
-              />
+                className="border rounded px-1 py-0.5 w-full text-sm "
+              >
+                {statusOptions.map((status) => (
+                  <option key={status} value={status}>
+                    {statusLabels[status as keyof typeof statusLabels]}
+                  </option>
+                ))}
+              </select>
             </td>
-            <td className="border px-2 py-1">
+            <td className="px-2 py-1">
               <input
                 type="date"
                 value={newAction.dueDate}
                 onChange={(e) =>
                   setNewAction((prev) => ({ ...prev, dueDate: e.target.value }))
                 }
-                className="border rounded px-1 py-0.5 w-full"
+                className="border rounded px-1 py-0.5 w-full text-sm "
               />
             </td>
-            <td className="border px-2 py-1 flex justify-center">
+            <td className="px-2 py-1 flex justify-center">
               <button
                 onClick={handleAdd}
-                className="bg-blue-700 text-white rounded px-2 py-1 flex items-center gap-1 hover:bg-blue-800"
+                className="bg-blue-700 text-white text-sm rounded px-2 py-1 flex items-center gap-1 hover:bg-blue-800"
               >
-                <AiOutlinePlus /> Adicionar
+                +
               </button>
             </td>
           </tr>
