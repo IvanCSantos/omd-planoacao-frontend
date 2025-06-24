@@ -35,6 +35,7 @@ export const ModalView = ({
   onClose: () => void;
 }) => {
   const [actionList, setActionList] = React.useState<ActionProps[]>([]);
+  const [isCreating, setIsCreating] = React.useState(false);
   const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
 
   const [formValues, setFormValues] = React.useState<ActionProps>({
@@ -59,27 +60,8 @@ export const ModalView = ({
     loadActionList();
   }, [loadActionList]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    try {
-      await createAction({
-        actionPlanId: data.id,
-        title: formValues.title,
-        status: formValues.status,
-        dueDate: formValues.dueDate,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleCreateAction = (status: boolean) => {
+    setIsCreating(status);
   };
 
   return (
@@ -128,6 +110,8 @@ export const ModalView = ({
                 actionPlanId={data.id}
                 actionList={actionList}
                 reload={loadActionList}
+                isCreating={isCreating}
+                handleCreateAction={handleCreateAction}
               />
             )}
           </div>
@@ -135,7 +119,10 @@ export const ModalView = ({
 
         {/* Botões inferiores */}
         <div className="flex mt-4 gap-2 justify-end">
-          <ButtonNew label="Nova Ação" onClick={onSubmit} />
+          <ButtonNew
+            label="Nova Ação"
+            onClick={() => handleCreateAction(true)}
+          />
         </div>
       </div>
     </div>

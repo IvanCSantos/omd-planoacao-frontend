@@ -29,10 +29,14 @@ export const ActionList = ({
   actionPlanId,
   actionList,
   reload,
+  isCreating,
+  handleCreateAction,
 }: {
   actionPlanId: number;
   actionList: ActionListType[];
   reload: () => void;
+  isCreating: boolean;
+  handleCreateAction: (status: boolean) => void;
 }) => {
   const [newAction, setNewAction] = useState({
     title: "",
@@ -50,6 +54,7 @@ export const ActionList = ({
         ...newAction,
       });
       setNewAction({ title: "", status: "PENDING", dueDate: "" });
+      handleCreateAction(false);
       reload();
     } catch (error) {
       console.error(error);
@@ -190,51 +195,59 @@ export const ActionList = ({
             </tr>
           ))}
 
-          <tr>
-            <td className="px-2 py-2">
-              <input
-                value={newAction.title}
-                onChange={(e) =>
-                  setNewAction((prev) => ({ ...prev, title: e.target.value }))
-                }
-                placeholder="Título"
-                className="border rounded px-1 py-0.5 w-full text-sm"
-              />
-            </td>
-            <td className="px-2 py-1">
-              <select
-                value={newAction.status}
-                onChange={(e) =>
-                  setNewAction((prev) => ({ ...prev, status: e.target.value }))
-                }
-                className="border rounded px-1 py-0.5 w-full text-sm "
-              >
-                {statusOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {statusLabels[status as keyof typeof statusLabels]}
-                  </option>
-                ))}
-              </select>
-            </td>
-            <td className="px-2 py-1">
-              <input
-                type="date"
-                value={newAction.dueDate}
-                onChange={(e) =>
-                  setNewAction((prev) => ({ ...prev, dueDate: e.target.value }))
-                }
-                className="border rounded px-1 py-0.5 w-full text-sm "
-              />
-            </td>
-            <td className="px-2 py-1 flex justify-center">
-              <button
-                onClick={handleAdd}
-                className="bg-blue-700 text-white text-sm rounded px-2 py-1 flex items-center gap-1 hover:bg-blue-800"
-              >
-                +
-              </button>
-            </td>
-          </tr>
+          {isCreating && (
+            <tr>
+              <td className="px-2 py-2">
+                <input
+                  value={newAction.title}
+                  onChange={(e) =>
+                    setNewAction((prev) => ({ ...prev, title: e.target.value }))
+                  }
+                  placeholder="Título"
+                  className="border rounded px-1 py-0.5 w-full text-sm"
+                />
+              </td>
+              <td className="px-2 py-1">
+                <select
+                  value={newAction.status}
+                  onChange={(e) =>
+                    setNewAction((prev) => ({
+                      ...prev,
+                      status: e.target.value,
+                    }))
+                  }
+                  className="border rounded px-1 py-0.5 w-full text-sm "
+                >
+                  {statusOptions.map((status) => (
+                    <option key={status} value={status}>
+                      {statusLabels[status as keyof typeof statusLabels]}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td className="px-2 py-1">
+                <input
+                  type="date"
+                  value={newAction.dueDate}
+                  onChange={(e) =>
+                    setNewAction((prev) => ({
+                      ...prev,
+                      dueDate: e.target.value,
+                    }))
+                  }
+                  className="border rounded px-1 py-0.5 w-full text-sm "
+                />
+              </td>
+              <td className="px-2 py-1 flex justify-center">
+                <button
+                  onClick={handleAdd}
+                  className="bg-blue-700 text-white text-sm rounded px-2 py-1 flex items-center gap-1 hover:bg-blue-800"
+                >
+                  +
+                </button>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

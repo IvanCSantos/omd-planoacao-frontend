@@ -67,6 +67,7 @@ export const ActionPlanList = ({
       title: "",
       goal: "",
     });
+    loadActionPlans();
   };
 
   const closeRemoveModal = () => {
