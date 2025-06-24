@@ -50,7 +50,7 @@ export const ButtonMenu = <T,>({
   return (
     <div className="relative inline-block" ref={menuRef}>
       <button
-        className="bg-blue-700 text-white mx-2 px-2 py-2 text-sm flex flex-row gap-1 items-center rounded-md cursor-pointer"
+        className="bg-blue-700 hover:bg-blue-800 text-white mx-2 px-2 py-2 text-sm flex flex-row gap-1 items-center rounded-md cursor-pointer"
         onClick={toggleMenu}
       >
         {label} {endIcon}

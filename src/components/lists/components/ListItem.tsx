@@ -32,14 +32,14 @@ export const ListItem = <T,>({ data, keys, buttons }: ListItemProps<T>) => {
   return (
     <>
       {data.map((item, index) => (
-        <tr key={index}>
+        <tr key={index} className="border-b-1 border-gray-100">
           {keys.map((key) => (
-            <td key={String(key)} className="border px-4 py-2 text-sm">
+            <td key={String(key)} className=" px-4 py-2 text-sm">
               {formatValue(String(key), item[key])}
             </td>
           ))}
           {buttons && (
-            <td className="border px-4 py-2">
+            <td className=" px-4 py-2">
               <ButtonMenu
                 label="Opções"
                 item={item}

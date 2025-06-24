@@ -18,7 +18,7 @@ export interface TableProps<T> {
 export const Table = <T,>({ headers, data, keys, buttons }: TableProps<T>) => {
   return (
     <table className="border-collapse w-full">
-      <thead>
+      <thead className="bg-gray-50 text-gray-700 rounded-tl-xl rounded-tr-xl overflow-hidden">
         <ListHeader headers={headers} />
       </thead>
       <tbody>
