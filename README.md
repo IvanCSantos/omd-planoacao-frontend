@@ -63,3 +63,16 @@ Acesse no navegador
 ```bash
 http://localhost:5173
 ```
+
+## Caso deseje, também pode utilizar o docker-compose.yml adicionado neste projeto
+
+- Clone ambos os repositórios
+- Mova o docker-compose.yml e o nginx.conf dentro do diretório deploy pada a raiz do projeto
+- Execute o docker compose
+
+```bash
+git clone git@github.com:IvanCSantos/omd-planoacao-frontend.git frontend
+git clone git@github.com:IvanCSantos/omd-planoacao-backend.git backend
+mv frontend/deploy/* .
+docker compose up -d --build
+```
