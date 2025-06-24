@@ -57,7 +57,7 @@ export const ButtonMenu = <T,>({
       </button>
 
       {open && (
-        <div className="absolute z-10 mt-1 w-32 bg-white rounded-md shadow-lg border right-0">
+        <div className="absolute z-10 mt-1 w-42 bg-white rounded-md shadow-lg border right-0">
           {buttons(item).map((btn) => (
             <button
               key={btn.label}

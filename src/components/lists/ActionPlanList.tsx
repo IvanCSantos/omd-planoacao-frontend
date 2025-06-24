@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Table } from "./components/Table";
 import { FaEye } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import {
@@ -146,8 +147,8 @@ export const ActionPlanList = ({
         keys={["title", "goal", "status", "creationDate"]}
         buttons={(item) => [
           {
-            label: "Visualizar",
-            icon: <FaEye />,
+            label: "Gerenciar ações",
+            icon: <IoMdSettings />,
             onClick: () => handleViewButton(item),
           },
           {

@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { ButtonSave } from "../../components/buttons/ButtonSave";
 import { InputText } from "../../components/inputs/InputText";
 import { ButtonNew } from "../buttons/ButtonNew";
+import { ButtonClose } from "../buttons/ButtonClose";
 import { getActionsByActionPlan, createAction } from "../../services/api";
 import { ActionList } from "../lists/ActionList";
 
@@ -36,7 +37,6 @@ export const ModalView = ({
 }) => {
   const [actionList, setActionList] = React.useState<ActionProps[]>([]);
   const [isCreating, setIsCreating] = React.useState(false);
-  const [modalRegisterIsOpen, setModalRegisterIsOpen] = React.useState(false);
 
   const [formValues, setFormValues] = React.useState<ActionProps>({
     id: 0,
@@ -59,6 +59,10 @@ export const ModalView = ({
   useEffect(() => {
     loadActionList();
   }, [loadActionList]);
+
+  useEffect(() => {
+    setIsCreating(false);
+  }, [display]);
 
   const handleCreateAction = (status: boolean) => {
     setIsCreating(status);
@@ -103,22 +107,19 @@ export const ModalView = ({
               title="Ações deste Plano:"
               styles="text-md font-medium mb-4"
             />
-            {actionList.length === 0 ? (
-              <p className="text-sm">Nenhuma ação cadastrada.</p>
-            ) : (
-              <ActionList
-                actionPlanId={data.id}
-                actionList={actionList}
-                reload={loadActionList}
-                isCreating={isCreating}
-                handleCreateAction={handleCreateAction}
-              />
-            )}
+            <ActionList
+              actionPlanId={data.id}
+              actionList={actionList}
+              reload={loadActionList}
+              isCreating={isCreating}
+              handleCreateAction={handleCreateAction}
+            />
           </div>
         </div>
 
         {/* Botões inferiores */}
         <div className="flex mt-4 gap-2 justify-end">
+          <ButtonClose label="Fechar" onClick={onClose} />
           <ButtonNew
             label="Nova Ação"
             onClick={() => handleCreateAction(true)}
